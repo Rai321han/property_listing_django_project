@@ -44,21 +44,10 @@ class Command(BaseCommand):
 
                 for row_num, row in enumerate(reader, start=2):
                     try:
-                        # Get or create location
-                        # location, created = Location.objects.get_or_create(
-                        #     name=row["location_name"],
-                        #     city=row["city"],
-                        #     defaults={
-                        #         "state": row.get("state", ""),
-                        #         "country": row.get("country", "USA"),
-                        #     },
-                        # )
-
                         # Create property
                         property_obj = Property.objects.create(
                             title=row["title"],
                             description=row["description"],
-                            # location=location,
                             property_type=row.get("property_type", "house"),
                             status=row.get("status", "available"),
                             price=float(row["price"]),

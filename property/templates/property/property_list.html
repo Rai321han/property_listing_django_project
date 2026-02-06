@@ -48,7 +48,7 @@
             </form>
         </div>
 
-        <div class="property-grid">
+        <!-- <div class="property-grid">
             {% for property in properties %}
             <div class="property-card">
                 <a href="{% url 'property:property_detail' property.pk %}">
@@ -71,7 +71,49 @@
             {% empty %}
             <p class="no-results">No properties found. Try adjusting your filters.</p>
             {% endfor %}
-        </div>
+        </div> -->
+
+<div class="property-grid">
+    {% for property in properties %}
+    <div class="property-card">
+        <a href="{% url 'property:property_detail' property.pk %}">
+            <div class="property-image">
+                {% if property.primary_image %}
+                    <img src="{{ property.primary_image.image.url }}" alt="{{ property.title }}">
+                {% else %}
+                    <img src="{% static 'img/placeholder.jpg' %}" alt="{{ property.title }}">
+                {% endif %}
+            </div>
+
+            <div class="property-body">
+                <h3 class="property-title">{{ property.title }}</h3>
+
+                <p class="property-location">
+                    📍 {{ property.location.name }}, {{ property.location.city }}
+                </p>
+
+                <p class="property-description">
+                    {{ property.description|truncatechars:90 }}
+                </p>
+
+                <div class="property-meta">
+                    <span>🛏 {{ property.bedrooms }}</span>
+                    <span>🚿 {{ property.bathrooms }}</span>
+                    <span class="rating">⭐ 4.9</span>
+                </div>
+
+                <div class="property-footer">
+                    <span class="price">{{ property.formatted_price }}</span>
+                    <button class="btn-primary">Reserve</button>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <p class="no-results">No properties found.</p>
+    {% endfor %}
+</div>
+
     </div>
 </section>
 {% endblock %}

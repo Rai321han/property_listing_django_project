@@ -60,6 +60,8 @@ class PropertyAdmin(admin.ModelAdmin):
         "bedrooms",
         "bathrooms",
         "image_count",
+        "created_at",
+        "updated_at",
     ]
     list_filter = ["property_type", "status", "location__city"]
     search_fields = ["title", "description", "location__name"]

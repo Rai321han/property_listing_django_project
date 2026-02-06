@@ -31,13 +31,17 @@ class Property(models.Model):
 
     # Location relationship
     location = models.ForeignKey(
-        Location, on_delete=models.CASCADE, related_name="properties"
+        Location,
+        on_delete=models.CASCADE,
+        related_name="properties",
+        null=True,
+        blank=True,
     )
 
     # Property details
     price = models.DecimalField(max_digits=12, decimal_places=2)
     bedrooms = models.PositiveIntegerField(default=0)
-    bathrooms = models.DecimalField(max_digits=3, decimal_places=1, default=0)
+    bathrooms = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -51,7 +55,7 @@ class Property(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.title} - {self.location.name}"
+        return f"{self.title}"
 
     @property
     def primary_image(self):
