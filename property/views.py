@@ -33,12 +33,16 @@ def autocomplete_location(request):
     """
     query = request.GET.get("q", "").strip()
 
-    if len(query) < 2:
+    if len(query) < 1:
         return JsonResponse({"suggestions": []})
 
     # Search in location name and city
     locations = (
-        Location.objects.filter(Q(name__icontains=query) | Q(city__icontains=query))
+        Location.objects.filter(
+            Q(name__icontains=query)
+            | Q(city__icontains=query)
+            | Q(country__icontains=query)
+        )
         .annotate(property_count=Count("properties"))
         .filter(property_count__gt=0)
         .order_by("-property_count")[:5]
