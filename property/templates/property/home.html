@@ -1,0 +1,59 @@
+{% extends 'property/base.html' %}
+{% load static %}
+
+{% block title %}Home - Property Listing{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="container">
+        <h1>Find Your Dream Property</h1>
+        <p>Search from thousands of properties in your area</p>
+        
+        <div class="search-container">
+            <div class="autocomplete-wrapper">
+                <input 
+                    type="text" 
+                    id="location-search" 
+                    placeholder="Search by location or city..."
+                    autocomplete="off"
+                >
+                <div id="autocomplete-results" class="autocomplete-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if recent_properties %}
+<section class="featured-section">
+    <div class="container">
+        <h2>Recent Properties</h2>
+        <div class="property-grid">
+            {% for property in recent_properties %}
+            <div class="property-card">
+                <a href="{% url 'property:property_detail' property.pk %}">
+                    {% if property.primary_image %}
+                    <img src="{{ property.primary_image.image.url }}" alt="{{ property.title }}">
+                    {% else %}
+                    <img src="{% static 'img/placeholder.jpg' %}" alt="{{ property.title }}">
+                    {% endif %}
+                    <div class="property-info">
+                        <h3>{{ property.title }}</h3>
+                        <p class="location">📍 {{ property.location.name }}, {{ property.location.city }}</p>
+                        <p class="price">{{ property.formatted_price }}</p>
+                        <div class="property-details">
+                            <span>🛏️ {{ property.bedrooms }} bed</span>
+                            <span>🚿 {{ property.bathrooms }} bath</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/autocomplete.js' %}"></script>
+{% endblock %}
