@@ -1,11 +1,11 @@
-title,description,location_name,city,state,country,property_type,status,price,bedrooms,bathrooms
-Luxury Villa in Downtown,Beautiful 4-bedroom villa with modern amenities and stunning city views,Downtown Plaza,New York,NY,USA,house,available,850000,4,3.5
-Modern Apartment,Spacious 2-bedroom apartment in the heart of the city with parking,City Center,Los Angeles,CA,USA,apartment,available,425000,2,2
-Cozy Townhouse,Charming 3-bedroom townhouse in quiet neighborhood,Riverside District,Chicago,IL,USA,house,available,375000,3,2.5
-Penthouse Suite,Luxurious penthouse with panoramic views and rooftop terrace,Skyline Towers,Miami,FL,USA,apartment,available,1250000,3,3
-Beach House,Stunning beachfront property with direct ocean access,Ocean View,San Diego,CA,USA,house,available,975000,5,4
-Studio Apartment,Affordable studio in convenient location near transit,Metro Station,Boston,MA,USA,apartment,available,285000,1,1
-Family Home,Spacious family home with large backyard and garage,Suburban Grove,Houston,TX,USA,house,available,465000,4,3
-Modern Condo,Contemporary 2-bedroom condo with gym and pool access,Urban Heights,Seattle,WA,USA,apartment,available,525000,2,2
-Commercial Space,Prime commercial property in business district,Financial District,San Francisco,CA,USA,commercial,available,1850000,0,2
-Country Estate,Expansive estate on 5 acres with guest house,Rolling Hills,Austin,TX,USA,house,available,1450000,6,5
+title,description,property_type,status,price,bedrooms,bathrooms
+Luxury Villa in Downtown,Beautiful 4-bedroom villa with modern amenities and stunning city views,house,available,850000,4,3
+Modern Apartment,Spacious 2-bedroom apartment in the heart of the city with parking,apartment,available,425000,2,2
+Cozy Townhouse,Charming 3-bedroom townhouse in quiet neighborhood,house,available,375000,3,2
+Penthouse Suite,Luxurious penthouse with panoramic views and rooftop terrace,apartment,available,1250000,3,3
+Beach House,Stunning beachfront property with direct ocean access,house,rented,975000,5,4
+Studio Apartment,Affordable studio in convenient location near transit,apartment,available,285000,1,1
+Family Home,Spacious family home with large backyard and garage,house,available,465000,4,3
+Modern Condo,Contemporary 2-bedroom condo with gym and pool access,apartment,rented,525000,2,2
+Commercial Space,Prime commercial property in business district,commercial,available,1850000,0,2
+Country Estate,Expansive estate on 5 acres with guest house,house,available,1450000,6,5

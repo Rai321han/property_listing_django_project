@@ -10,5 +10,5 @@ source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
-python manage.py import_properties sample_properties.csv
+python manage.py import_properties sample_properties_data.csv
 python manage.py runserver
