@@ -34,9 +34,9 @@ class LocationAdmin(admin.ModelAdmin):
     Admin interface for Location model
     """
 
-    list_display = ["name", "city", "state", "country", "zipcode", "property_count"]
+    list_display = ["name", "city", "state", "country", "property_count"]
     list_filter = ["city", "state", "country"]
-    search_fields = ["name", "city", "state", "zipcode"]
+    search_fields = ["name", "city", "state"]
     ordering = ["name"]
 
     def property_count(self, obj):
@@ -60,11 +60,10 @@ class PropertyAdmin(admin.ModelAdmin):
         "bedrooms",
         "bathrooms",
         "image_count",
-        "featured",
     ]
-    list_filter = ["property_type", "status", "featured", "location__city"]
+    list_filter = ["property_type", "status", "location__city"]
     search_fields = ["title", "description", "location__name"]
-    list_editable = ["status", "featured"]
+    list_editable = ["status"]
     readonly_fields = ["created_at", "updated_at", "primary_image_preview"]
 
     fieldsets = (
@@ -74,9 +73,9 @@ class PropertyAdmin(admin.ModelAdmin):
         ),
         (
             "Property Details",
-            {"fields": ("price", "bedrooms", "bathrooms", "area_sqft", "year_built")},
+            {"fields": ("price", "bedrooms", "bathrooms")},
         ),
-        ("Settings", {"fields": ("featured", "primary_image_preview")}),
+        ("Primary Image", {"fields": ("primary_image_preview",)}),
         (
             "Timestamps",
             {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},

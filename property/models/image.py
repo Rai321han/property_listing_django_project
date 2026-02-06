@@ -1,4 +1,10 @@
+"""
+Image Model Module
+Handles property images
+"""
+
 from django.db import models
+from builtins import property as py_property
 from .property import Property
 
 
@@ -10,7 +16,7 @@ class Image(models.Model):
     property = models.ForeignKey(
         Property, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="properties/")
+    image = models.ImageField(upload_to="property_images/")
     caption = models.CharField(max_length=255, blank=True)
     is_primary = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
@@ -35,7 +41,7 @@ class Image(models.Model):
             )
         super().save(*args, **kwargs)
 
-    @property
+    @py_property
     def thumbnail_url(self):
         """Return image URL (can be extended with thumbnail generation)"""
         if self.image:

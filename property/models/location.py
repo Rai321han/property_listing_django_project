@@ -24,10 +24,8 @@ class Location(models.Model):
     @property
     def full_address(self):
         """Return full formatted address"""
-        parts = [self.name, self.city]
+        parts = [self.name, self.city, self.country]
         if self.state:
             parts.append(self.state)
-        if self.zipcode:
-            parts.append(self.zipcode)
         parts.append(self.country)
         return ", ".join(parts)
