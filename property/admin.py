@@ -34,7 +34,7 @@ class LocationAdmin(admin.ModelAdmin):
     Admin interface for Location model
     """
 
-    list_display = ["name", "city", "state", "country", "property_count"]
+    list_display = ["id", "name", "city", "state", "country", "property_count"]
     list_filter = ["city", "state", "country"]
     search_fields = ["name", "city", "state"]
     ordering = ["name"]
@@ -52,6 +52,7 @@ class PropertyAdmin(admin.ModelAdmin):
     """
 
     list_display = [
+        "id",
         "title",
         "location",
         "property_type",

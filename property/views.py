@@ -47,12 +47,12 @@ def autocomplete_location(request):
         .filter(property_count__gt=0)
         .order_by("-property_count")[:5]
     )
-
     suggestions = [
         {
             "id": loc.id,
             "name": loc.name,
             "city": loc.city,
+            "country": loc.country,
             "full_address": loc.full_address,
             "property_count": loc.property_count,
         }
@@ -66,35 +66,46 @@ def property_list(request):
     """
     Display list of properties filtered by location
     """
-    location_id = request.GET.get("location")
+    location_param = request.GET.get("location", "").strip()
 
     properties = (
-        Property.objects.filter(status="available")
-        .select_related("location")
-        .prefetch_related("images")
+        # Property.objects.filter(status="available")
+        Property.objects.select_related("location").prefetch_related("images")
     )
 
     selected_location = None
-    if location_id:
-        selected_location = get_object_or_404(Location, id=location_id)
-        properties = properties.filter(location=selected_location)
 
-    # Additional filters
-    property_type = request.GET.get("type")
-    if property_type:
-        properties = properties.filter(property_type=property_type)
+    if location_param:
+        # Case 1: location is an ID (from autocomplete)
+        if location_param.isdigit():
+            print("herer")
+            selected_location = get_object_or_404(Location, id=location_param)
+            properties = properties.filter(location=selected_location)
 
-    min_price = request.GET.get("min_price")
-    if min_price:
-        properties = properties.filter(price__gte=float(min_price))
+        # Case 2: location is free text
+        else:
+            properties = properties.filter(
+                Q(location__name__icontains=location_param)
+                | Q(location__city__icontains=location_param)
+                | Q(location__country__icontains=location_param)
+            )
 
-    max_price = request.GET.get("max_price")
-    if max_price:
-        properties = properties.filter(price__lte=float(max_price))
+    # # Additional filters
+    # property_type = request.GET.get("type")
+    # if property_type:
+    #     properties = properties.filter(property_type=property_type)
 
-    bedrooms = request.GET.get("bedrooms")
-    if bedrooms:
-        properties = properties.filter(bedrooms__gte=int(bedrooms))
+    # min_price = request.GET.get("min_price")
+    # if min_price:
+    #     properties = properties.filter(price__gte=float(min_price))
+
+    # max_price = request.GET.get("max_price")
+    # if max_price:
+    #     properties = properties.filter(price__lte=float(max_price))
+
+    # bedrooms = request.GET.get("bedrooms")
+    # if bedrooms:
+    #     properties = properties.filter(bedrooms__gte=int(bedrooms))
 
     properties = properties.order_by("-created_at")
 
@@ -102,7 +113,9 @@ def property_list(request):
         "properties": properties,
         "selected_location": selected_location,
         "property_types": Property.PROPERTY_TYPES,
+        "search_query": location_param,
     }
+
     return render(request, "property/property_list.html", context)
 
 

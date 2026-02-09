@@ -27,5 +27,4 @@ class Location(models.Model):
         parts = [self.name, self.city, self.country]
         if self.state:
             parts.append(self.state)
-        parts.append(self.country)
         return ", ".join(parts)
