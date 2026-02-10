@@ -31,33 +31,26 @@ def property_list(request):
     """
     Display list of properties filtered by location
     """
-    location_param = request.GET.get("location", "").strip()
+    location_id = request.GET.get("location", "").strip()
+    location_text = request.GET.get("location_text", "").strip()
 
-    properties = (
-        # Property.objects.filter(status="available")
-        Property.objects.select_related("location").prefetch_related("images")
-    )
-
+    properties = Property.objects.select_related("location").prefetch_related("images")
     selected_location = None
 
-    if location_param:
-        # Case 1: location is an ID (from autocomplete)
-        if location_param.isdigit():
-            print("herer")
-            selected_location = get_object_or_404(Location, id=location_param)
+    if location_id:
+        if location_id.isdigit():
+            selected_location = get_object_or_404(Location, id=location_id)
             properties = properties.filter(location=selected_location)
-
-        # Case 2: location is free text
         else:
+            # Free text search if not digit
             properties = properties.filter(
-                Q(location__name__icontains=location_param)
-                | Q(location__city__icontains=location_param)
-                | Q(location__country__icontains=location_param)
+                Q(location__name__icontains=location_id)
+                | Q(location__city__icontains=location_id)
+                | Q(location__country__icontains=location_id)
             )
 
     properties = properties.order_by("-created_at")
-
-    paginator = Paginator(properties, 9)  # 9 properties per page
+    paginator = Paginator(properties, 9)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -66,7 +59,7 @@ def property_list(request):
         "page_obj": page_obj,
         "selected_location": selected_location,
         "property_types": Property.PROPERTY_TYPES,
-        "search_query": location_param,
+        "search_query": location_text or location_id,
         "count": properties.count,
     }
     return render(request, "property/property_list.html", context)

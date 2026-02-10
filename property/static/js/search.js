@@ -1,20 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("location-search");
     const resultsBox = document.getElementById("autocomplete-results");
+    const searchForm = document.getElementById("search-form");
 
     let debounceTimer = null;
 
+    // Autocomplete fetch
     input.addEventListener("input", () => {
         const query = input.value.trim();
-
-        // Clear results if empty
         if (query.length < 1) {
             resultsBox.innerHTML = "";
             resultsBox.style.display = "none";
             return;
         }
 
-        // Debounce (avoid spamming API)
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             fetch(`/api/autocomplete/?q=${encodeURIComponent(query)}`)
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderResults(suggestions) {
         resultsBox.innerHTML = "";
-
         if (!suggestions || suggestions.length === 0) {
             resultsBox.style.display = "none";
             return;
@@ -44,8 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
 
             item.addEventListener("click", () => {
-                // Redirect to property list filtered by location ID
-                window.location.href = `/properties?location=${loc.id}`;
+                // Redirect with location_text + location ID
+                const locationText = `${loc.name}, ${loc.city}, ${loc.country}`;
+                window.location.href = `/properties?location_text=${encodeURIComponent(locationText)}&location=${loc.id}`;
             });
 
             resultsBox.appendChild(item);
@@ -56,30 +55,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Hide suggestions when clicking outside
     document.addEventListener("click", (e) => {
-        if (!e.target.closest(".autocomplete-wrapper")) {
+        if (!e.target.closest(".search-wrapper")) {
             resultsBox.innerHTML = "";
             resultsBox.style.display = "none";
         }
     });
-});
 
-
-const searchBtn = document.getElementById("search");
-const searchInput = document.getElementById("location-search");
-
-function makeSearch() {
-    const searchTerm = searchInput.value.trim();
-    if (searchTerm.length < 1) return;
-    // Encode special characters in URL
-    window.location.href = `/properties?location=${encodeURIComponent(searchTerm)}`;
-}
-
-// Search on button click
-searchBtn.addEventListener("click", makeSearch);
-
-// Search when pressing Enter in input
-searchInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        makeSearch();
-    }
+    // Search form submit
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const term = input.value.trim();
+        if (term.length < 1) return;
+        window.location.href = `/properties?location=${encodeURIComponent(term)}`;
+    });
 });
