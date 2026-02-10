@@ -97,7 +97,7 @@ property/
 │   ├── property.py       # Property model - core real estate listing
 │   ├── location.py       # Location model - geographic locations
 │   └── image.py          # Image model - property images
-├── views.py              # View functions and API endpoints
+├── views/                # View functions for pages and api
 ├── urls.py               # URL routing configuration
 ├── admin.py              # Django admin configuration
 ├── templates/
