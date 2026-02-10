@@ -1,0 +1,120 @@
+/* Hero Section */
+.hero-minimal {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    background: #fafafa;
+    padding: 80px 0;
+}
+
+
+.hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+}
+
+.hero-subtitle {
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+/* Search Box */
+.search-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-box {
+    display: flex;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+}
+
+.search-btn {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 0 2.5rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.02em;
+}
+
+.search-btn:hover {
+    background: #333;
+}
+
+.autocomplete-item {
+    text-align: left;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background-color: #ececec;
+}
+
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .search-box {
+        flex-direction: column;
+    }
+    
+    .search-btn {
+        padding: 1rem;
+    }
+
+}
