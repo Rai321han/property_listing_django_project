@@ -1,6 +1,20 @@
 # Property Listing Application
 
+[![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org) [![Django](https://img.shields.io/badge/django-6.0.2-green.svg)](https://www.djangoproject.com)
+
 A Django-based real estate property listing application that allows users to browse, search, and view property listings with location-based filtering and autocomplete functionality.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Installation & Setup](#installation--setup)
+- [App Structure](#app-structure)
+- [Database Models](#database-models)
+- [Views & URL Routes](#views--url-routes)
+- [Features in Detail](#features-in-detail)
+- [Admin Interface](#admin-interface)
+- [Migration and Data Import](#migration-and-data-import)
 
 ## Overview
 
@@ -15,7 +29,61 @@ The Property app is a Django application module that manages property listings, 
 - **Property Details**: Comprehensive property information including type, price, bedrooms, bathrooms, and status
 - **Responsive Design**: Clean HTML templates for property display
 
-## Project Structure
+## Installation & Setup
+
+### Prerequisites
+- Python 3.12 or higher
+- Django 6.0.2 or higher
+
+### Setup Instructions
+
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/Rai321han/property_listing_django_project.git
+```
+
+#### 2. Navigate to project directory
+```bash
+cd property_listing_django_project
+```
+
+#### 3. Create Virtual Environment
+
+```bash
+# Create and activate virtual environment using uv
+uv venv
+source .venv/bin/activate
+```
+
+#### 4. Install Dependencies
+```bash
+# uv (recommended)
+uv sync
+
+# or
+
+# pip
+pip install -r requirements.txt
+```
+
+#### 5. Setup Database & Admin
+
+```bash
+# Create superuser for admin access
+python manage.py createsuperuser
+```
+
+#### 6. Load Data & Run Server
+
+```bash
+# Start development server
+python manage.py runserver
+```
+
+The application will be accessible at `http://127.0.0.1:8000/`
+
+
+## App Structure
 
 ```
 property/
@@ -28,15 +96,15 @@ property/
 ├── admin.py              # Django admin configuration
 ├── templates/
 │   └── property/
-│       ├── base.html              # Base template
-│       ├── home.html              # Home page
+│       ├── base.html               # Base template
+│       ├── home.html               # Home page
 │       ├── property_list.html      # Property listings page
 │       └── property_detail.html    # Property detail page
 ├── static/
-│   ├── css/              # Stylesheets
+│   ├── css/                    # Stylesheets
 │   └── js/
-│       └── autocomplete.js         # Location autocomplete functionality
-└── migrations/           # Database migrations
+│       └── autocomplete.js     # Location autocomplete functionality
+└── migrations/                 # Database migrations
 ```
 
 ## Database Models
@@ -87,76 +155,25 @@ Handles property images:
 - Provides thumbnail URL access
 - Ordered display by position and upload date
 
-## Installation & Setup
-
-### Prerequisites
-- Python 3.12 or higher
-- Django 6.0.2 or higher
-
-### Setup Instructions
-
-#### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Rai321han/property_listing_django_project.git
-cd property_listing_django_project
-```
-
-#### 2. Create Virtual Environment & Install Dependencies
-
-```bash
-# Create and activate virtual environment using uv
-uv venv
-source .venv/bin/activate
-
-# Install dependencies
-uv pip install -r requirements.txt
-```
-
-#### 3. Setup Database & Admin
-
-```bash
-# Run migrations
-python manage.py migrate
-
-# Create superuser for admin access
-python manage.py createsuperuser
-```
-
-#### 4. Load Data & Run Server
-
-```bash
-# Load sample property data
-python manage.py import_properties sample_properties_data.csv
-
-# Start development server
-python manage.py runserver
-```
-
-The application will be accessible at `http://127.0.0.1:8000/`
 
 ## Views & URL Routes
 
 ### Frontend Pages
 
 #### Home Page (`/`)
-- Displays recent available properties
-- Shows up to 6 most recent listings
 - Includes property search input
 
-#### Property List (`/`)
-- Full list of properties with filtering capability
-- Location-based filtering support
-- Shows all property details including images
+#### Property List (`/properties`)
+- Full list of properties
 
-#### Property Detail (`/<int:pk>`)
+#### Property Detail (`/properties/<int:pk>`)
 - Detailed view of individual property
 - Displays all images associated with the property
 - Shows complete property information
 
 ### API Endpoints
 
-#### Location Autocomplete (`/autocomplete-location/`)
+#### Location Autocomplete (`/autocomplete/`)
 - **Method**: GET
 - **Parameters**: 
   - `q`: Search query (minimum 1 character)
@@ -210,7 +227,14 @@ The Django admin interface is configured for managing:
 
 Access via `/admin/` after creating a superuser account.
 
-## Data Import
+## Migration and Data Import
+
+Database migration
+```bash
+# Run migrations
+python manage.py migrate
+```
+
 
 The application includes a management command for importing properties:
 
@@ -218,7 +242,10 @@ The application includes a management command for importing properties:
 python manage.py import_properties <csv_file_path>
 ```
 
-Expected CSV format with columns: title, description, property_type, status, location_id, price, bedrooms, bathrooms
+Expected CSV format with columns: title, description, property_type, status, price, bedrooms, bathrooms
+
+> [!NOTE]
+> A sample CSV file containing property data is provided and has already been imported.
 
 ## Template Features
 
@@ -231,11 +258,3 @@ All templates include:
 
 JavaScript enhancement via `autocomplete.js` provides real-time location suggestions.
 
-## Future Enhancement Opportunities
-
-- Advanced filtering (price range, bedroom count, property type)
-- Property ratings and reviews
-- Favorite/bookmark functionality
-- Contact form for property inquiries
-- Map integration for location visualization
-- Image gallery with zoom functionality
