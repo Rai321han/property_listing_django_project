@@ -5,54 +5,10 @@ from django.shortcuts import render
 Views for Property app
 """
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.db.models import Q, Count
-from .models import Property, Location
+from ..models import Property, Location
 from django.core.paginator import Paginator
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.db.models import Q, Count
-from .models import Location
-
-
-class LocationAutocompleteAPIView(APIView):
-    """
-    Location autocomplete API
-    Returns up to 5 locations with available properties
-    """
-
-    def get(self, request):
-        query = request.GET.get("q", "").strip()
-
-        if len(query) < 1:
-            return Response({"suggestions": []}, status=status.HTTP_200_OK)
-
-        locations = (
-            Location.objects.filter(
-                Q(name__icontains=query)
-                | Q(city__icontains=query)
-                | Q(country__icontains=query)
-            )
-            .annotate(property_count=Count("properties"))
-            .filter(property_count__gt=0)
-            .order_by("-property_count")[:5]
-        )
-
-        suggestions = [
-            {
-                "id": loc.id,
-                "name": loc.name,
-                "city": loc.city,
-                "country": loc.country,
-                "full_address": loc.full_address,
-                "property_count": loc.property_count,
-            }
-            for loc in locations
-        ]
-
-        return Response({"suggestions": suggestions}, status=status.HTTP_200_OK)
+from ..models import Location
+from django.db.models import Q
 
 
 def home(request):
@@ -69,42 +25,6 @@ def home(request):
         "recent_properties": recent_properties,
     }
     return render(request, "property/home.html", context)
-
-
-def autocomplete_location(request):
-    """
-    API endpoint for location autocomplete
-    Returns JSON with up to 5 location suggestions
-    """
-    query = request.GET.get("q", "").strip()
-
-    if len(query) < 1:
-        return JsonResponse({"suggestions": []})
-
-    # Search in location name and city
-    locations = (
-        Location.objects.filter(
-            Q(name__icontains=query)
-            | Q(city__icontains=query)
-            | Q(country__icontains=query)
-        )
-        .annotate(property_count=Count("properties"))
-        .filter(property_count__gt=0)
-        .order_by("-property_count")[:5]
-    )
-    suggestions = [
-        {
-            "id": loc.id,
-            "name": loc.name,
-            "city": loc.city,
-            "country": loc.country,
-            "full_address": loc.full_address,
-            "property_count": loc.property_count,
-        }
-        for loc in locations
-    ]
-
-    return JsonResponse({"suggestions": suggestions})
 
 
 def property_list(request):
