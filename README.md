@@ -101,9 +101,9 @@ property/
 │       ├── property_list.html      # Property listings page
 │       └── property_detail.html    # Property detail page
 ├── static/
-│   ├── css/                    # Stylesheets
-│   └── js/
-│       └── autocomplete.js     # Location autocomplete functionality
+│   ├── icons/                  # site icons
+│   ├── css/                    # stylesheets
+│   └── js/                     # js scripts
 └── migrations/                 # Database migrations
 ```
 
