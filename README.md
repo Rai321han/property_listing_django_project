@@ -256,5 +256,5 @@ All templates include:
 - Formatted price display
 - Location information
 
-JavaScript enhancement via `autocomplete.js` provides real-time location suggestions.
+JavaScript enhancement via `search.js` provides real-time location suggestions.
 
