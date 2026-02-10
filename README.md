@@ -48,35 +48,41 @@ cd property_listing_django_project
 ```
 
 #### 3. Create Virtual Environment
+(recommended)
+```bash
+uv venv
+```
+or
 
 ```bash
-# Create and activate virtual environment using uv
-uv venv
+python3 -m venv .venv
+```
+
+#### 4. Activate Virtual Environment
+```bash
 source .venv/bin/activate
 ```
 
-#### 4. Install Dependencies
+#### 5. Install Dependencies
 ```bash
-# uv (recommended)
 uv sync
+```
 
-# or
+or
 
-# pip
+```bash
 pip install -r requirements.txt
 ```
 
-#### 5. Setup Database & Admin
+#### 6. Create superuser for admin access
 
 ```bash
-# Create superuser for admin access
 python manage.py createsuperuser
 ```
 
-#### 6. Load Data & Run Server
+#### 7. Run Server
 
 ```bash
-# Start development server
 python manage.py runserver
 ```
 
