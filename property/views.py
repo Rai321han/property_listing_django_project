@@ -10,6 +10,50 @@ from django.db.models import Q, Count
 from .models import Property, Location
 from django.core.paginator import Paginator
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.db.models import Q, Count
+from .models import Location
+
+
+class LocationAutocompleteAPIView(APIView):
+    """
+    Location autocomplete API
+    Returns up to 5 locations with available properties
+    """
+
+    def get(self, request):
+        query = request.GET.get("q", "").strip()
+
+        if len(query) < 1:
+            return Response({"suggestions": []}, status=status.HTTP_200_OK)
+
+        locations = (
+            Location.objects.filter(
+                Q(name__icontains=query)
+                | Q(city__icontains=query)
+                | Q(country__icontains=query)
+            )
+            .annotate(property_count=Count("properties"))
+            .filter(property_count__gt=0)
+            .order_by("-property_count")[:5]
+        )
+
+        suggestions = [
+            {
+                "id": loc.id,
+                "name": loc.name,
+                "city": loc.city,
+                "country": loc.country,
+                "full_address": loc.full_address,
+                "property_count": loc.property_count,
+            }
+            for loc in locations
+        ]
+
+        return Response({"suggestions": suggestions}, status=status.HTTP_200_OK)
+
 
 def home(request):
     """
@@ -105,7 +149,6 @@ def property_list(request):
         "search_query": location_param,
         "count": properties.count,
     }
-
     return render(request, "property/property_list.html", context)
 
 

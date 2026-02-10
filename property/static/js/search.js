@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Debounce (avoid spamming API)
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
-            fetch(`/autocomplete/?q=${encodeURIComponent(query)}`)
+            fetch(`/api/autocomplete/?q=${encodeURIComponent(query)}`)
                 .then(res => res.json())
                 .then(data => renderResults(data.suggestions))
                 .catch(() => {

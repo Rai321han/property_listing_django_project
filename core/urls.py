@@ -20,13 +20,16 @@ from django.urls import path, include
 from property import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from property.views import LocationAutocompleteAPIView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),
     # Autocomplete endpoint
-    path("autocomplete/", views.autocomplete_location, name="autocomplete"),
+    # path("autocomplete/", views.autocomplete_location, name="autocomplete"),
+    path(
+        "api/autocomplete/", LocationAutocompleteAPIView.as_view(), name="autocomplete"
+    ),
     path("properties/", include("property.urls")),
 ]
 
