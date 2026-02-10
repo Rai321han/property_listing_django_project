@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Q, Count
 from .models import Property, Location
+from django.core.paginator import Paginator
 
 
 def home(request):
@@ -90,30 +91,19 @@ def property_list(request):
                 | Q(location__country__icontains=location_param)
             )
 
-    # # Additional filters
-    # property_type = request.GET.get("type")
-    # if property_type:
-    #     properties = properties.filter(property_type=property_type)
-
-    # min_price = request.GET.get("min_price")
-    # if min_price:
-    #     properties = properties.filter(price__gte=float(min_price))
-
-    # max_price = request.GET.get("max_price")
-    # if max_price:
-    #     properties = properties.filter(price__lte=float(max_price))
-
-    # bedrooms = request.GET.get("bedrooms")
-    # if bedrooms:
-    #     properties = properties.filter(bedrooms__gte=int(bedrooms))
-
     properties = properties.order_by("-created_at")
 
+    paginator = Paginator(properties, 9)  # 9 properties per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "properties": properties,
+        "properties": page_obj,
+        "page_obj": page_obj,
         "selected_location": selected_location,
         "property_types": Property.PROPERTY_TYPES,
         "search_query": location_param,
+        "count": properties.count,
     }
 
     return render(request, "property/property_list.html", context)
